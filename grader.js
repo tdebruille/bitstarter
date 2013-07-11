@@ -83,21 +83,21 @@ if(require.main == module) {
 
 	if(program.url){
 		rest.get(program.url).on('complete',function(result){
-        if (result instanceof Error){
-            sys.puts('Error: ' + result.message);
-            this.retry(5000);                                                                                   
-        }
-        else {
-	  		var checkJson = checkHtmlString(result, program.checks);
-	  		var outJson = JSON.stringify(checkJson, null, 4);
-			console.log(outJson);
-	    }
-    	});
+			if(result instanceof Error){
+				sys.puts('Error: ' + result.message);
+				this.retry(5000);                                                                                   
+			}
+			else{
+				var checkJson = checkHtmlString(result, program.checks);
+				var outJson = JSON.stringify(checkJson, null, 4);
+				console.log(outJson);
+			}
+		});
 	}	
 	else{
-	  var checkJson = checkHtmlFile(program.file, program.checks);
-	  var outJson = JSON.stringify(checkJson, null, 4);
-	  console.log(outJson);
+		var checkJson = checkHtmlFile(program.file, program.checks);
+		var outJson = JSON.stringify(checkJson, null, 4);
+		console.log(outJson);
 	}
 
 } else {
